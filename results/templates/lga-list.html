@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>All LGAs</title>
+</head>
+<body>
+<h3>{{results.count}} LGAs in state</h3>
+<br>
+
+<form action="{% url "lgas:lga-sum" %}" method="GET">
+	<select name="lga-id">
+	{% for lga in results %}
+		<option value="{{lga.lga_id}}">{{lga.lga_name}}</option>	
+	{% endfor %}
+	</select>
+	<button type="submit">Submit</button>
+</form>
+
+</body>
+</html>
+</html> 

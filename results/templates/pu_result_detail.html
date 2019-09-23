@@ -1,0 +1,21 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Polling Unit - {{results.0.polling_unit_uniqueid}}</title>
+</head>
+<body>
+<h3>Polling Unit Result ID: {{results.0.polling_unit_uniqueid}}</h3>
+<br>
+
+{% for unit in results %}
+<h3>Party: {{unit.party_abbreviation}}</h3>
+<p>Score: {{unit.party_score}}</p>
+<p>Result ID: {{unit.result_id}}</p>
+<p>Voter: {{unit.entered_by_user}}</p>
+<p>Date: {{unit.date_entered}}</p>
+<hr>
+</table>
+{% endfor %}
+</body>
+</html>

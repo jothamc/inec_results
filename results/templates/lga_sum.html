@@ -1,0 +1,19 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>LGA Result Sum</title>
+</head>
+<body>
+<h3>Results of {{results.0.polling_unit.lga.lga_name|default:"this"}} LGA</h3>
+<br>
+
+<h3>Sum of results from {{results.count}} polling units in {{results.0.polling_unit.lga.lga_name}}</h3>
+
+{% for name,score in scores.items %}
+<p>{{name}}: {{score}}</p>
+{% endfor %}
+
+</body>
+</html>
+</html> 
