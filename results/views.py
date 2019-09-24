@@ -4,7 +4,6 @@ from .models import PollingUnitResult
 from polling_units.models import PollingUnit
 from lgas.models import LGA
 from parties.models import Party
-from collections import Counter
 from django import forms
 
 # Create your views here.
@@ -46,7 +45,7 @@ class PollingUnitResultCreateView(CreateView):
 class ResultForm(forms.ModelForm):
 	class Meta:
 		model = PollingUnitResult
-		fields = "__all__"
+		fields = ['entered_by_user','party','party_score']
 
 
 
@@ -56,19 +55,17 @@ def PR(request):
 	if request.method == "GET":
 		form = ResultForm()
 	elif request.method == "POST":
-		for r in request.POST:
-			if len(r)==1:
-				pu=PollingUnit.objects.get(polling_unit_name='new_pu')
-				party = Party.objects.get(id=r)
-				score = int(request.POST[r]) or 0
-				user = request.POST['entered_by_user']
-				result = PollingUnitResult(entered_by_user=user,party=party,
-					polling_unit=pu,party_score=score,user_ip_address="127.0.0.1")
-				result.save()
+	    pu = PollingUnit.objects.filter(polling_unit_name='new_pu')[0]
 
-
-		# PollingUnitResult()
-		form = ResultForm(request.POST)
+	    for r in request.POST:
+	        if len(r)==1:
+	            party = Party.objects.get(id=r).partyid
+	            partyid = party[:4]
+	            score = int(request.POST[r])
+	            user = request.POST['entered_by_user']
+	            result = PollingUnitResult.objects.create(entered_by_user=user,party=partyid,polling_unit=pu,party_score=score,user_ip_address="127.0.0.1")
+	            result.save()
+	    form = ResultForm(request.POST)
 	return render(request,"pu_result_create.html",{"form":form,"parties":parties})
 
 
@@ -88,9 +85,9 @@ class LGAResultSumView(ListView):
 	    queryset = self.get_queryset()
 	    scores = {}
 	    for result in queryset:
-	    	if result.party_abbreviation in scores:
-	    		scores[result.party_abbreviation]+=result.party_score
+	    	if result.party in scores:
+	    		scores[result.party]+=result.party_score
 	    	else:
-	    		scores[result.party_abbreviation]=result.party_score
+	    		scores[result.party]=result.party_score
 	    	context['scores'] = scores
 	    return context
