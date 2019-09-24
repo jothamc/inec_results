@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>New Polling Unit Result</title>
+</head>
+<body>
+
+<form action="{% url "pu:create-result" %}" method="POST">
+	{% csrf_token %}
+	<label>Polling Unit</label>
+	{{form.polling_unit}}
+	<br>
+	<label>Party</label>
+	{% for party in parties %}
+		<input type="number" name="{{party.id}}" value='{{form.party_score}}' placeholder="{{party}}">
+	{%endfor%}
+	<br>
+	<label>User</label>
+	{{form.entered_by_user}}
+	<button type="submit">Submit</button>
+</form>
+
+
+</body>
+</html>

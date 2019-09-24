@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'results',
-    'agents',
+    'parties',
     'lgas',
     'polling_units',
 ]

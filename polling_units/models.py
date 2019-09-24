@@ -20,3 +20,6 @@ class PollingUnit(models.Model):
 
 	class Meta:
 		db_table = "polling_unit"
+
+	def __str__(self):
+		return self.polling_unit_name
